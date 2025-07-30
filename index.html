@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Moon Phases</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        #moon-container {
+            width: 100vw;
+            height: 100vh;
+        }
+        #ui-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            z-index: 100;
+            background: rgba(10, 10, 31, 0.85);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 300px;
+        }
+        #date-display {
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: 300;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        #phase-display {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #e0e0ff;
+        }
+        #phase-display strong {
+            color: #ffffff;
+            font-size: 16px;
+        }
+        #timeline-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(10, 10, 31, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        #timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        #timeline-header h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: normal;
+        }
+        #timeline-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #timeline-controls button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        #timeline-controls button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        #timeline-month {
+            font-size: 14px;
+            min-width: 100px;
+            text-align: center;
+        }
+        #timeline-container {
+            position: relative;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        #timeline-track {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+        }
+        #timeline-cursor {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: left 0.3s ease;
+            z-index: 10;
+        }
+        .phase-marker {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        .phase-marker:hover {
+            transform: translateY(-50%) scale(1.2);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+        }
+        .phase-marker.new-moon {
+            background: #2a2a2a;
+            border-color: #888;
+            box-shadow: 0 0 6px rgba(100, 100, 100, 0.3);
+        }
+        .phase-marker.full-moon {
+            background: #f8f8f8;
+            border-color: #fff;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+        }
+        .phase-marker.quarter {
+            background: linear-gradient(90deg, #2a2a2a 50%, #f8f8f8 50%);
+            border-color: #aaa;
+            box-shadow: 0 0 8px rgba(200, 200, 200, 0.4);
+        }
+        .phase-marker.current {
+            border-color: #4a9eff;
+            box-shadow: 0 0 15px rgba(74, 158, 255, 0.6);
+        }
+        .day-marker {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .day-marker.major {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="moon-container"></div>
+    <div id="ui-panel">
+        <div id="date-display"></div>
+        <div id="phase-display"></div>
+    </div>
+    <div id="timeline-panel">
+        <div id="timeline-header">
+            <h3>Lunar Cycle History</h3>
+            <div id="timeline-controls">
+                <button id="prev-month" title="Previous Month">‹</button>
+                <span id="timeline-month"></span>
+                <button id="next-month" title="Next Month">›</button>
+            </div>
+        </div>
+        <div id="timeline-container">
+            <div id="timeline-track"></div>
+            <div id="timeline-cursor"></div>
+        </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
