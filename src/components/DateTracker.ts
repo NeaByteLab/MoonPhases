@@ -8,7 +8,6 @@ export class DateTracker {
   private onDateChange: (date: Date) => void
   private animationSpeed: number = 1
   private isAnimating: boolean = false
-  private _targetDate: Date | null = null
   private animationId: number | null = null
   private lastUpdateTime: number = 0
   private readonly updateThrottle: number = 100
@@ -114,7 +113,6 @@ export class DateTracker {
       cancelAnimationFrame(this.animationId)
     }
     this.isAnimating = true
-    this._targetDate = new Date(targetDate)
     const startDate = new Date(this.currentDate)
     const totalDuration = Math.abs(targetDate.getTime() - startDate.getTime())
     const startTime = Date.now()
@@ -122,7 +120,8 @@ export class DateTracker {
       const elapsed = Date.now() - startTime
       const progress = Math.min(elapsed / (totalDuration / this.animationSpeed), 1)
       const easeProgress = this.easeInOutCubic(progress)
-      const currentTime = startDate.getTime() + (targetDate.getTime() - startDate.getTime()) * easeProgress
+      const currentTime =
+        startDate.getTime() + (targetDate.getTime() - startDate.getTime()) * easeProgress
       this.currentDate = new Date(currentTime)
       const now = Date.now()
       if (now - this.lastUpdateTime >= this.updateThrottle || progress >= 1) {
@@ -133,7 +132,6 @@ export class DateTracker {
         this.animationId = requestAnimationFrame(animate)
       } else {
         this.isAnimating = false
-        this._targetDate = null
       }
     }
     animate()
@@ -154,7 +152,13 @@ export class DateTracker {
    *
    * @returns Phase info object
    */
-  getCurrentPhaseInfo(): { phase: number; name: string; illumination: number; nextNewMoon: Date; nextFullMoon: Date } {
+  getCurrentPhaseInfo(): {
+    phase: number
+    name: string
+    illumination: number
+    nextNewMoon: Date
+    nextFullMoon: Date
+    } {
     const phase = ta.moonPhase(this.currentDate)
     return {
       phase,
@@ -174,7 +178,6 @@ export class DateTracker {
       this.animationId = null
     }
     this.isAnimating = false
-    this._targetDate = null
   }
 
   /**

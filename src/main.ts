@@ -12,7 +12,6 @@ class MoonPhaseApp {
   private timeline!: Timeline
   private dateDisplay!: HTMLElement
   private phaseDisplay!: HTMLElement
-  private _isAnimating: boolean = false
   private isUpdatingFromTimeline: boolean = false
 
   /**
@@ -82,7 +81,6 @@ class MoonPhaseApp {
    */
   private setupKeyboardControls(): void {
     document.addEventListener('keydown', (e: KeyboardEvent) => {
-      this._isAnimating = true
       switch (e.key) {
       case 'ArrowLeft':
         e.preventDefault()
@@ -120,9 +118,6 @@ class MoonPhaseApp {
         this.toggleTimeline()
         break
       }
-      setTimeout(() => {
-        this._isAnimating = false
-      }, 2000)
     })
   }
 
@@ -138,14 +133,22 @@ class MoonPhaseApp {
       month: 'long',
       day: 'numeric'
     })
-    const nextNewMoonDate = phaseInfo.nextNewMoon.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-    const nextFullMoonDate = phaseInfo.nextFullMoon.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    const nextNewMoonDate = phaseInfo.nextNewMoon.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric'
+    })
+    const nextFullMoonDate = phaseInfo.nextFullMoon.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric'
+    })
     const daysToNewMoon = ta.daysBetween(currentDate, phaseInfo.nextNewMoon)
     const daysToFullMoon = ta.daysBetween(currentDate, phaseInfo.nextFullMoon)
     const newMoonRelative = ta.formatRelativeTime(daysToNewMoon)
     const fullMoonRelative = ta.formatRelativeTime(daysToFullMoon)
     this.phaseDisplay.innerHTML = `
-      <div><strong>${phaseInfo.name}</strong> (${Math.round(phaseInfo.illumination)}% illuminated)</div>
+      <div><strong>${phaseInfo.name}</strong> (${Math.round(
+  phaseInfo.illumination
+)}% illuminated)</div>
       <div style="margin-top: 8px; font-size: 12px;">
         <div>Next New Moon: ${nextNewMoonDate} <span style="opacity: 0.8;">(${newMoonRelative})</span></div>
         <div>Next Full Moon: ${nextFullMoonDate} <span style="opacity: 0.8;">(${fullMoonRelative})</span></div>
@@ -182,7 +185,9 @@ document.addEventListener('DOMContentLoaded', () => {
       <div style="color: white; text-align: center; margin-top: 50px;">
         <h1>Error</h1>
         <p>Failed to load 3D Moon Phase application.</p>
-        <p style="font-size: 12px; opacity: 0.7;">${error instanceof Error ? error.message : 'Unknown error'}</p>
+        <p style="font-size: 12px; opacity: 0.7;">${
+  error instanceof Error ? error.message : 'Unknown error'
+}</p>
       </div>
     `
   }
