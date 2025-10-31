@@ -16,8 +16,8 @@ A beautiful, interactive 3D moon phase visualization built with Three.js and Typ
 
 ### Prerequisites
 
-- Node.js 18+
-- npm or yarn
+- Node.js 20.19+ or 22.12+ (required for Vite 7.x)
+- npm or yarn for package management
 
 ### Installation
 
