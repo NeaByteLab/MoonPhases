@@ -1,11 +1,11 @@
 import { defineConfig } from 'vite'
-import { resolve } from 'path'
+import { resolve } from 'node:path'
 
 export default defineConfig({
   base: '/MoonPhases/',
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src')
+      '@': resolve(import.meta.dirname, 'src')
     }
   }
 })

@@ -16,7 +16,7 @@ A beautiful, interactive 3D moon phase visualization built with Three.js and Typ
 
 ### Prerequisites
 
-- Node.js 16+ 
+- Node.js 18+
 - npm or yarn
 
 ### Installation
@@ -39,7 +39,7 @@ Open [http://localhost:5173/MoonPhases/](http://localhost:5173/MoonPhases/) to v
 
 ### Keyboard Shortcuts
 - `←/→` Arrow keys - Navigate days
-- `↑/↓` Arrow keys - Navigate weeks  
+- `↑/↓` Arrow keys - Navigate weeks
 - `N` - Jump to next New Moon
 - `F` - Jump to next Full Moon
 - `Space` - Return to today
